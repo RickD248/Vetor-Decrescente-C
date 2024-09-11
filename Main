@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <locale.h>
+ 
+#define limite 5
+ 
+int main() {
+
+    setlocale(LC_ALL, "Portuguese");
+
+    // define já o valor dos vetores, mas caso seja nescessário, é interessante usar sizeof()
+    int vetor[limite];
+    int copiaVetor[limite];
+    
+    // recebe variaveis do usuario, para simular vários contextos em que o código funciona
+    for (int i = 0; i < limite; i++) {
+        printf("Insira números até que não seja mais nescessario (%d/%d) \n", i, limite);
+        scanf("%d", &vetor[i]);
+        copiaVetor[i] = vetor[i];
+        // limpa a tela a cada fim de loop
+        system("cls");
+    }
+
+    // aqui ele vai repetir a quantidade de vezes referente ao tamanho do array, para que ele possa printar todos os valores
+    for(int repeat = 0; repeat < limite; repeat++) {
+
+        // define o maiorVetor como um vetor já válido
+        int maiorVetor = copiaVetor[0];
+
+        // começa a procurar dentre todas as possibilidades os maiores valores
+        for (int i = 0; i < limite; i++) {
+            for (int j = 0; j < limite; j++) {
+
+                // Verifica se é nescessario alterar o valor do maiorVetor
+                if (copiaVetor[j] >= vetor[i] && copiaVetor[j] != -1 && maiorVetor <= vetor[i]) {
+                    maiorVetor = copiaVetor[j];
+
+                }
+            }
+        }
+
+        /* aqui ele printa o maior valor e pula uma linha pra preparar o proximo print.
+        neste código eu apenas printo, mas se for de sua vontade, é possivel atribuir esses valores pra um novo array.
+        É interessante notar que é possivel tornar esse array em ordem crescente também se nescessário, só definir o valor do array +
+        para o mesmo valor do vetor e usar um for com i-- para ir colocando os valores de trás para frente no vetor*/
+        printf("%d \n", maiorVetor);
+
+        /* aqui ele transforma os valores em que o maiorVetor já passou para que não se repita
+        Neste caso eu transformei os valores para -1, pois na situação a qual me encontro (motivo a qual fiz este código)
+        não usaremos números negativos, portanto não haverá conflito.
+        Mas no caso de nescessitar de um valor negativo no código, da também pra fazer uma substituição usando uma variavel temporaria. */
+        for (int j = 0; j < limite; j++) {
+            if (maiorVetor == copiaVetor[j] && copiaVetor[j] == vetor[j]) {
+                copiaVetor[j] = -1;
+                break;
+
+            }
+        }
+    }
+ 
+    return 0;
+
+}
